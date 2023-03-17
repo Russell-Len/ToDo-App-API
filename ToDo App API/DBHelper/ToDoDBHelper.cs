@@ -49,7 +49,7 @@ namespace ToDo_App_API.DBHelper
                     taskToSave.DueDate = taskModel.DueDate;
                     taskToSave.Category = taskModel.Category;
 
-                    taskToSave.Updated = new DateTime();
+                    taskToSave.Updated = DateTime.UtcNow;
                 }
             }
             else
@@ -61,8 +61,8 @@ namespace ToDo_App_API.DBHelper
                 taskToSave.Category = taskModel.Category;
                 taskToSave.IsDeleted = false;
 
-                taskToSave.Created = new DateTime();
-                taskToSave.Updated = new DateTime();
+                taskToSave.Created = DateTime.UtcNow;
+                taskToSave.Updated = DateTime.UtcNow;
                 _context.Tasks.Add(taskToSave);
             }
             _context.SaveChanges();
