@@ -21,8 +21,7 @@ namespace ToDo_App_API.Controllers
         {
             try
             {
-                IEnumerable<TaskModel> data = _db.GetTasks();
-                return Ok(data);
+                return Ok(_db.GetTasks());
             }
             catch (Exception ex)
             {
