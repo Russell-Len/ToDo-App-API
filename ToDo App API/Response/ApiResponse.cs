@@ -1,4 +1,4 @@
-﻿namespace ToDo_App_API.Model
+﻿namespace ToDo_App_API.Response
 {
     public class ApiResponse
     {
