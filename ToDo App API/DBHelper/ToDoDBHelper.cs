@@ -4,13 +4,49 @@ using Task = ToDo_App_API.Entity.Task;
 
 namespace ToDo_App_API.DBHelper
 {
-    public class ToDoDBHelper
+    public class ToDoDBHelper : IToDoDBHelper
     {
-        private TaskDBContext _context;
+        private readonly TaskDBContext _context;
 
         public ToDoDBHelper(TaskDBContext context)
         {
             _context = context;
+        }
+
+        public void AddTask(TaskModel taskModel)
+        {
+            var taskToAdd = new Task
+            {
+                Title = taskModel.Title,
+                Description = taskModel.Description,
+                DueDate = taskModel.DueDate,
+                Category = taskModel.Category,
+                IsDeleted = false,
+
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow
+            };
+
+            _context.Tasks.Add(taskToAdd);
+
+            _context.SaveChanges();
+        }
+
+        public void EditTask(TaskModel taskModel)
+        {
+            var taskToEdit = _context.Tasks.Where(d => d.Id.Equals(taskModel.Id)).FirstOrDefault();
+
+            if (taskToEdit != null)
+            {
+                taskToEdit.Title = taskModel.Title;
+                taskToEdit.Description = taskModel.Description;
+                taskToEdit.DueDate = taskModel.DueDate;
+                taskToEdit.Category = taskModel.Category;
+
+                taskToEdit.Updated = DateTime.UtcNow;
+            }
+
+            _context.SaveChanges();
         }
 
         public List<TaskModel> GetTasks()
@@ -33,40 +69,7 @@ namespace ToDo_App_API.DBHelper
             return response;
         }
 
-        public void SaveTask(TaskModel taskModel)
-        {
-            Task? taskToSave = new();
-           
-            if (taskModel.Id > 0)
-            {
-                //PUT - Update task
-                taskToSave = _context.Tasks.Where(d => d.Id.Equals(taskModel.Id)).FirstOrDefault();
-
-                if (taskToSave != null)
-                {
-                    taskToSave.Title = taskModel.Title;
-                    taskToSave.Description = taskModel.Description;
-                    taskToSave.DueDate = taskModel.DueDate;
-                    taskToSave.Category = taskModel.Category;
-
-                    taskToSave.Updated = DateTime.UtcNow;
-                }
-            }
-            else
-            {
-                //POST - Add new task
-                taskToSave.Title = taskModel.Title;
-                taskToSave.Description = taskModel.Description;
-                taskToSave.DueDate = taskModel.DueDate;
-                taskToSave.Category = taskModel.Category;
-                taskToSave.IsDeleted = false;
-
-                taskToSave.Created = DateTime.UtcNow;
-                taskToSave.Updated = DateTime.UtcNow;
-                _context.Tasks.Add(taskToSave);
-            }
-            _context.SaveChanges();
-        }
+        
 
         public void SoftDeleteTask(int Id)
         {

@@ -46,7 +46,7 @@ namespace ToDo_App_API.Controllers
 
             try
             {
-                _db.SaveTask(taskModel);
+                _db.AddTask(taskModel);
                 return Ok(ResponseHandler.GetAppResponse(type, taskModel));
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace ToDo_App_API.Controllers
 
             try
             {
-                _db.SaveTask(taskModel);
+                _db.EditTask(taskModel);
                 return Ok(ResponseHandler.GetAppResponse(type, taskModel));
             }
             catch (Exception ex)
