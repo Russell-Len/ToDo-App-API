@@ -2,7 +2,6 @@
 using ToDo_App_API.DataContext;
 using ToDo_App_API.DBHelper;
 using ToDo_App_API.Model;
-using ToDo_App_API.Response;
 
 namespace ToDo_App_API.Controllers
 {
@@ -20,70 +19,56 @@ namespace ToDo_App_API.Controllers
         [HttpGet("GetTasks")]
         public IActionResult GetTasks()
         {
-            ResponseType type = ResponseType.Success;
-
             try
             {
                 IEnumerable<TaskModel> data = _db.GetTasks();
-
-                if (!data.Any())
-                {
-                    type = ResponseType.NotFound;
-                }
-                return Ok(ResponseHandler.GetAppResponse(type, data));
+                return Ok(data);
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return BadRequest("An error occured on the server.");
             }
-
         }
 
         [HttpPost("AddTask")]
         public IActionResult AddTask([FromBody] TaskModel taskModel)
         {
-            ResponseType type = ResponseType.Success;
-
             try
             {
                 _db.AddTask(taskModel);
-                return Ok(ResponseHandler.GetAppResponse(type, taskModel));
+                return Ok("Added successfully.");
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return BadRequest("An error occured on the server.");
             }
         }
 
         [HttpPut("EditTask")]
         public IActionResult EditTask([FromBody] TaskModel taskModel)
         {
-            ResponseType type = ResponseType.Success;
-
             try
             {
                 _db.EditTask(taskModel);
-                return Ok(ResponseHandler.GetAppResponse(type, taskModel));
+                return Ok("Edited successfully.");
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return BadRequest("An error occured on the server.");
             }
         }
 
         [HttpDelete("DeleteTask/{id}")]
         public IActionResult DeleteTask(int id)
         {
-            ResponseType type = ResponseType.Success;
-
             try
             {
                 _db.SoftDeleteTask(id);
-                return Ok(ResponseHandler.GetAppResponse(type, "Deleted Successfully."));
+                return Ok("Deleted Successfully.");
             }
             catch (Exception ex)
             {
-                return BadRequest(ResponseHandler.GetExceptionResponse(ex));
+                return BadRequest("An error occured on the server.");
             }
         }
 
