@@ -35,7 +35,7 @@ namespace ToDo_App_API.Controllers
             try
             {
                 _db.AddTask(taskModel);
-                return Ok("Added successfully.");
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace ToDo_App_API.Controllers
             try
             {
                 _db.EditTask(taskModel);
-                return Ok("Edited successfully.");
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace ToDo_App_API.Controllers
             try
             {
                 _db.SoftDeleteTask(id);
-                return Ok("Deleted Successfully.");
+                return Ok();
             }
             catch (Exception ex)
             {
