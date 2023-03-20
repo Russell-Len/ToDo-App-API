@@ -51,7 +51,6 @@ namespace ToDo_App_API.DBHelper
 
             _context.SaveChanges();
 
-            return taskToAdd;
         }
 
         public void EditTask(TaskModel taskModel)
