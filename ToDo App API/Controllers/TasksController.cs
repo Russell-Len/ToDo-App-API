@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ToDo_App_API.DataContext;
 using ToDo_App_API.DBHelper;
 using ToDo_App_API.Model;
@@ -6,6 +7,7 @@ using ToDo_App_API.Model;
 namespace ToDo_App_API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/tasks")]
     public class TasksController : ControllerBase
     {

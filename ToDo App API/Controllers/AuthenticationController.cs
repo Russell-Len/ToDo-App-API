@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,7 +15,9 @@ namespace ToDo_App_API.Controllers
 
         public class AuthenticationRequestBody
         {
+            [Required]
             public string? Username { get; set; }
+            [Required]
             public string? Password { get; set; }
         }
 
