@@ -17,7 +17,11 @@ namespace ToDo_App_API.DBHelper
         {
             List<TaskModel> response = new();
 
-            var dataList = _context.Tasks.Where(t => !t.IsDeleted).ToList();
+            var dataList = _context.Tasks
+                .Where(task => !task.IsDeleted)
+                .OrderBy(task => task.DueDate)
+                .ToList();
+
             dataList.ForEach(row => response.Add(new TaskModel()
             {
                 Id = row.Id,
