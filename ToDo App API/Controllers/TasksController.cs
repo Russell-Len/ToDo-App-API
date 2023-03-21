@@ -16,7 +16,7 @@ namespace ToDo_App_API.Controllers
             _db = new ToDoDBHelper(taskDBContext);
         }
 
-        [HttpGet("GetTasks")]
+        [HttpGet]
         public IActionResult GetTasks()
         {
             try
@@ -29,7 +29,7 @@ namespace ToDo_App_API.Controllers
             }
         }
 
-        [HttpPost("AddTask")]
+        [HttpPost]
         public IActionResult AddTask([FromBody] TaskModel taskModel)
         {
             try
@@ -43,7 +43,7 @@ namespace ToDo_App_API.Controllers
             }
         }
 
-        [HttpPut("EditTask")]
+        [HttpPut]
         public IActionResult EditTask([FromBody] TaskModel taskModel)
         {
             try
@@ -57,7 +57,7 @@ namespace ToDo_App_API.Controllers
             }
         }
 
-        [HttpDelete("DeleteTask/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteTask(int id)
         {
             try
