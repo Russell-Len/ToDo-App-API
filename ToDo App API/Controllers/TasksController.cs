@@ -30,11 +30,11 @@ namespace ToDo_App_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTask([FromBody] TaskModel taskModel)
+        public IActionResult AddTask([FromBody] TaskToAddModel taskToAddModel)
         {
             try
             {
-                _db.AddTask(taskModel);
+                _db.AddTask(taskToAddModel);
                 return NoContent();
             }
             catch (Exception ex)
@@ -44,11 +44,11 @@ namespace ToDo_App_API.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditTask([FromBody] TaskModel taskModel)
+        public IActionResult EditTask([FromBody] TaskToEditModel taskToEditModel)
         {
             try
             {
-                _db.EditTask(taskModel);
+                _db.EditTask(taskToEditModel);
                 return NoContent();
             }
             catch (Exception ex)

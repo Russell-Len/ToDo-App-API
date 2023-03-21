@@ -37,14 +37,14 @@ namespace ToDo_App_API.DBHelper
             return response;
         }
 
-        public void AddTask(TaskModel taskModel)
+        public void AddTask(TaskToAddModel taskToAddModel)
         {
             var taskToAdd = new Task
             {
-                Title = taskModel.Title,
-                Description = taskModel.Description,
-                DueDate = taskModel.DueDate,
-                Category = taskModel.Category,
+                Title = taskToAddModel.Title,
+                Description = taskToAddModel.Description,
+                DueDate = taskToAddModel.DueDate,
+                Category = taskToAddModel.Category,
                 IsDeleted = false,
 
                 Created = DateTime.UtcNow,
@@ -57,16 +57,16 @@ namespace ToDo_App_API.DBHelper
 
         }
 
-        public void EditTask(TaskModel taskModel)
+        public void EditTask(TaskToEditModel taskToEditModel)
         {
-            var taskToEdit = _context.Tasks.Where(d => d.Id.Equals(taskModel.Id)).FirstOrDefault();
+            var taskToEdit = _context.Tasks.Where(d => d.Id.Equals(taskToEditModel.Id)).FirstOrDefault();
 
             if (taskToEdit != null)
             {
-                taskToEdit.Title = taskModel.Title;
-                taskToEdit.Description = taskModel.Description;
-                taskToEdit.DueDate = taskModel.DueDate;
-                taskToEdit.Category = taskModel.Category;
+                taskToEdit.Title = taskToEditModel.Title;
+                taskToEdit.Description = taskToEditModel.Description;
+                taskToEdit.DueDate = taskToEditModel.DueDate;
+                taskToEdit.Category = taskToEditModel.Category;
 
                 taskToEdit.Updated = DateTime.UtcNow;
             }

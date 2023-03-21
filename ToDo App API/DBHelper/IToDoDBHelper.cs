@@ -6,9 +6,9 @@ namespace ToDo_App_API.DBHelper
     {
         public List<TaskModel> GetTasks();
 
-        public void AddTask(TaskModel taskModel);
+        public void AddTask(TaskToAddModel taskToAddModel);
 
-        public void EditTask(TaskModel taskModel);
+        public void EditTask(TaskToEditModel taskToEditModel);
 
         public void SoftDeleteTask(int Id);
     }
