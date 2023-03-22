@@ -13,7 +13,7 @@ namespace ToDo_App_API.Controllers
     {
         private readonly ToDoDBHelper _db;
 
-        public TasksController(TaskDBContext taskDBContext)
+        public TasksController(ToDoDBContext taskDBContext)
         {
             _db = new ToDoDBHelper(taskDBContext);
         }

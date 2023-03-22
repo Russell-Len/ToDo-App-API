@@ -15,7 +15,7 @@ builder.Services.AddCors(options => options.AddPolicy(name: "TaskOrigins", polic
     policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddDbContext<TaskDBContext>(o =>
+builder.Services.AddDbContext<ToDoDBContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("Postgresql_DB"))
 );
 

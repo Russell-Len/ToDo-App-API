@@ -11,9 +11,9 @@ using ToDo_App_API.DataContext;
 
 namespace ToDo_App_API.Migrations
 {
-    [DbContext(typeof(TaskDBContext))]
-    [Migration("20230317025310_InitialDb")]
-    partial class InitialDb
+    [DbContext(typeof(ToDoDBContext))]
+    [Migration("20230322054419_Migration#1.0")]
+    partial class Migration10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace ToDo_App_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ToDo_App_API.Model.Task", b =>
+            modelBuilder.Entity("ToDo_App_API.Entity.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

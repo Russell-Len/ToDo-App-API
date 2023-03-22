@@ -6,9 +6,9 @@ namespace ToDo_App_API.DBHelper
 {
     public class ToDoDBHelper : IToDoDBHelper
     {
-        private readonly TaskDBContext _context;
+        private readonly ToDoDBContext _context;
 
-        public ToDoDBHelper(TaskDBContext context)
+        public ToDoDBHelper(ToDoDBContext context)
         {
             _context = context;
         }
