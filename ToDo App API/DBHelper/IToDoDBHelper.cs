@@ -11,5 +11,9 @@ namespace ToDo_App_API.DBHelper
         public void EditTask(TaskToEditModel taskToEditModel);
 
         public void SoftDeleteTask(int Id);
+
+        public void AddAuthor(AuthorToAddModel authorToAddModel);
+
+        public AuthorModel? GetAuthorByUsername(string username);
     }
 }

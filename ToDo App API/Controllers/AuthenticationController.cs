@@ -4,40 +4,40 @@ using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ToDo_App_API.DataContext;
+using ToDo_App_API.DBHelper;
+using ToDo_App_API.Model;
 
 namespace ToDo_App_API.Controllers
 {
     [ApiController]
-    [Route("api/authenticaiton")]
+    [Route("api/auth")]
     public class AuthenticationController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly ToDoDBHelper _db;
 
         public class AuthenticationRequestBody
         {
             [Required]
-            public string? Username { get; set; }
-            [Required]
-            public string? Password { get; set; }
-        }
-
-        private class TodoUser
-        {
-            public int UserId { get; set; }
             public string Username { get; set; } = string.Empty;
+            [Required]
+            public string Password { get; set; } = string.Empty;
         }
 
-        public AuthenticationController(IConfiguration configuration)
+        public AuthenticationController(IConfiguration configuration, ToDoDBContext taskDBContext)
         {
             _configuration = configuration;
+            _db = new ToDoDBHelper(taskDBContext);
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         public ActionResult<string> Authenticate(AuthenticationRequestBody authenticationRequestBody)
         {
-            var user = ValidateUserCredentials(
+            var user = _db.ValidateCredentials(
                 authenticationRequestBody.Username,
-                authenticationRequestBody.Password);
+                authenticationRequestBody.Password
+                );
 
             if (user == null) return Unauthorized();
 
@@ -47,7 +47,7 @@ namespace ToDo_App_API.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim("sub", user.UserId.ToString()),
+                new Claim("sub", user.AuthorId.ToString()),
                 new Claim("username", user.Username)
             };
 
@@ -65,11 +65,18 @@ namespace ToDo_App_API.Controllers
             return Ok(tokenToReturn);
         }
 
-        private TodoUser ValidateUserCredentials(string? username, string? password)
+        [HttpPost("register")]
+        public IActionResult AddAuthor(AuthorToAddModel authorToAddModel)
         {
-            //check user/password with db
-
-            return new TodoUser();
+            try
+            {
+                _db.AddAuthor(authorToAddModel);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occured on the server.");
+            }
         }
 
     }

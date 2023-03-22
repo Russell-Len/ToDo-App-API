@@ -12,7 +12,7 @@ using ToDo_App_API.DataContext;
 namespace ToDo_App_API.Migrations
 {
     [DbContext(typeof(ToDoDBContext))]
-    [Migration("20230322054419_Migration#1.0")]
+    [Migration("20230322064815_Migration#1.0")]
     partial class Migration10
     {
         /// <inheritdoc />
@@ -25,6 +25,27 @@ namespace ToDo_App_API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ToDo_App_API.Entity.Author", b =>
+                {
+                    b.Property<int>("AuthorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AuthorId"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("AuthorId");
+
+                    b.ToTable("authors");
+                });
+
             modelBuilder.Entity("ToDo_App_API.Entity.Task", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +53,9 @@ namespace ToDo_App_API.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Category")
                         .IsRequired()

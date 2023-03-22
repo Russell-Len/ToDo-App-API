@@ -25,5 +25,7 @@ namespace ToDo_App_API.Entity
         public DateTime Created { get; set; }
 
         public DateTime Updated { get; set; }
+
+        public int AuthorId { get; set; }
     }
 }
