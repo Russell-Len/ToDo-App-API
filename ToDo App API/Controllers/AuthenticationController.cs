@@ -32,37 +32,45 @@ namespace ToDo_App_API.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<string> Authenticate(AuthenticationRequestBody authenticationRequestBody)
+        public IActionResult Authenticate(AuthenticationRequestBody authenticationRequestBody)
         {
-            var user = _db.ValidateCredentials(
+            try
+            {
+                var user = _db.ValidateCredentials(
                 authenticationRequestBody.Username,
                 authenticationRequestBody.Password
                 );
 
-            if (user == null) return Unauthorized();
+                if (user == null) return Unauthorized();
 
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]!));
+                var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]!));
 
-            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new List<Claim>
+                var claims = new List<Claim>
             {
                 new Claim("sub", user.AuthorId.ToString()),
                 new Claim("username", user.Username)
             };
 
-            var jwtToken = new JwtSecurityToken(
-                _configuration["Authentication:Issuer"],
-                _configuration["Authentication:Audience"],
-                claims,
-                DateTime.UtcNow,
-                DateTime.UtcNow.AddHours(1),
-                signingCredentials
-                );
+                var jwtToken = new JwtSecurityToken(
+                    _configuration["Authentication:Issuer"],
+                    _configuration["Authentication:Audience"],
+                    claims,
+                    DateTime.UtcNow,
+                    DateTime.UtcNow.AddHours(1),
+                    signingCredentials
+                    );
 
-            var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtToken);
+                var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-            return Ok(tokenToReturn);
+                return Ok(tokenToReturn);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("An error occured on the server.");
+            }
+
         }
 
         [HttpPost("register")]

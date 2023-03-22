@@ -32,7 +32,7 @@ namespace ToDo_App_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTask([FromBody] TaskToAddModel taskToAddModel)
+        public IActionResult AddTask(TaskToAddModel taskToAddModel)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace ToDo_App_API.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditTask([FromBody] TaskToEditModel taskToEditModel)
+        public IActionResult EditTask(TaskToEditModel taskToEditModel)
         {
             try
             {
