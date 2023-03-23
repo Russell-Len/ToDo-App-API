@@ -42,6 +42,8 @@ namespace ToDo_App_API.DBHelper
 
         public void AddTask(TaskToAddModel taskToAddModel)
         {
+            DateTime now = DateTime.UtcNow;
+
             var taskToAdd = new Task
             {
                 Title = taskToAddModel.Title,
@@ -50,8 +52,8 @@ namespace ToDo_App_API.DBHelper
                 Category = taskToAddModel.Category,
                 IsDeleted = false,
 
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow
+                Created = now,
+                Updated = now
             };
 
             _context.Tasks.Add(taskToAdd);
