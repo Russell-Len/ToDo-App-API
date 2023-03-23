@@ -60,7 +60,7 @@ namespace ToDo_App_API.Controllers
                     _configuration["Authentication:Audience"],
                     claims,
                     DateTime.UtcNow,
-                    DateTime.UtcNow.AddHours(1),
+                    DateTime.UtcNow.AddMinutes(30),
                     signingCredentials
                     );
 
