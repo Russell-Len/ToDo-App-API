@@ -15,6 +15,7 @@ namespace ToDo_App_API.Controllers
     public class AuthenticationController : Controller
     {
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthenticationController> _logger;
         private readonly ToDoDBHelper _db;
 
         public class AuthenticationRequestBody
@@ -25,9 +26,10 @@ namespace ToDo_App_API.Controllers
             public string Password { get; set; } = string.Empty;
         }
 
-        public AuthenticationController(IConfiguration configuration, ToDoDBContext taskDBContext)
+        public AuthenticationController(IConfiguration configuration, ToDoDBContext taskDBContext, ILogger<AuthenticationController> logger)
         {
             _configuration = configuration;
+            _logger = logger;
             _db = new ToDoDBHelper(taskDBContext);
         }
 
@@ -48,10 +50,10 @@ namespace ToDo_App_API.Controllers
                 var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var claims = new List<Claim>
-            {
+                {
                 new Claim("authorId", user.AuthorId.ToString()),
                 new Claim("username", user.Username)
-            };
+                };
 
                 var jwtToken = new JwtSecurityToken(
                     _configuration["Authentication:Issuer"],
@@ -68,6 +70,7 @@ namespace ToDo_App_API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning("Exception occured: {message}", ex.Message);
                 return BadRequest("An error occured on the server.");
             }
 
@@ -88,6 +91,7 @@ namespace ToDo_App_API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogWarning("Exception occured: {message}", ex.Message);
                 return BadRequest("An error occured on the server.");
             }
         }
