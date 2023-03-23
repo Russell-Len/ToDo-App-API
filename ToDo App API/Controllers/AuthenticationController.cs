@@ -70,7 +70,7 @@ namespace ToDo_App_API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogWarning("Exception occured: {message}", ex.Message);
+                _logger.LogError("Exception occured: {message}", ex.Message);
                 return BadRequest("An error occured on the server.");
             }
 
@@ -91,7 +91,7 @@ namespace ToDo_App_API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogWarning("Exception occured: {message}", ex.Message);
+                _logger.LogError("Exception occured: {message}", ex.Message);
                 return BadRequest("An error occured on the server.");
             }
         }
