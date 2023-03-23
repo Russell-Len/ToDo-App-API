@@ -49,7 +49,7 @@ namespace ToDo_App_API.Controllers
 
                 var claims = new List<Claim>
             {
-                new Claim("sub", user.AuthorId.ToString()),
+                new Claim("authorId", user.AuthorId.ToString()),
                 new Claim("username", user.Username)
             };
 

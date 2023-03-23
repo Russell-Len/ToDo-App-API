@@ -4,7 +4,7 @@ namespace ToDo_App_API.DBHelper
 {
     public interface IToDoDBHelper
     {
-        public List<TaskModel> GetTasks();
+        public List<TaskModel> GetTasks(int authorId);
 
         public void AddTask(TaskToAddModel taskToAddModel);
 

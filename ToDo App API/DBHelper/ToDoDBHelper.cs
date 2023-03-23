@@ -11,17 +11,14 @@ namespace ToDo_App_API.DBHelper
         private readonly ToDoDBContext _context;
         private readonly PasswordHasher _passwordHasher = new();
 
-        public ToDoDBHelper(ToDoDBContext context)
-        {
-            _context = context;
-        }
+        public ToDoDBHelper(ToDoDBContext context) { _context = context; }
 
-        public List<TaskModel> GetTasks()
+        public List<TaskModel> GetTasks(int authorId)
         {
             List<TaskModel> response = new();
 
             var dataList = _context.Tasks
-                .Where(task => !task.IsDeleted)
+                .Where(task => !task.IsDeleted && task.AuthorId == authorId)
                 .OrderBy(task => task.DueDate)
                 .ToList();
 
@@ -55,7 +52,7 @@ namespace ToDo_App_API.DBHelper
                 Created = now,
                 Updated = now,
 
-                AuthorId = taskToAddModel.AuthorId,
+                AuthorId = taskToAddModel.AuthorId
             };
 
             _context.Tasks.Add(taskToAdd);
