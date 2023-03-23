@@ -53,7 +53,9 @@ namespace ToDo_App_API.DBHelper
                 IsDeleted = false,
 
                 Created = now,
-                Updated = now
+                Updated = now,
+
+                AuthorId = taskToAddModel.AuthorId,
             };
 
             _context.Tasks.Add(taskToAdd);

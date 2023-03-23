@@ -12,5 +12,6 @@ namespace ToDo_App_API.Model
         public bool IsDeleted { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+        public int AuthorId { get; set; }
     }
 }
