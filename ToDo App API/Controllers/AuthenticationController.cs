@@ -80,7 +80,7 @@ namespace ToDo_App_API.Controllers
             {
                 bool IsAuthorExists = _db.GetAuthorByUsername(authorToAddModel.Username) != null;
 
-                if (IsAuthorExists) return UnprocessableEntity("Author already exists.");
+                if (IsAuthorExists) return UnprocessableEntity("Username already taken/in use.");
 
                 _db.AddAuthor(authorToAddModel);
 
