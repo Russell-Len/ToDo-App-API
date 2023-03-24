@@ -37,6 +37,11 @@ namespace ToDo_App_API.DBHelper
             return response;
         }
 
+        public Task? GetTaskById(int Id)
+        {
+            return _context.Tasks.Where(d => d.Id.Equals(Id)).FirstOrDefault();
+        }
+
         public void AddTask(TaskToAddModel taskToAddModel)
         {
             DateTime now = DateTime.UtcNow;
@@ -63,32 +68,28 @@ namespace ToDo_App_API.DBHelper
 
         public void EditTask(TaskToEditModel taskToEditModel)
         {
-            var taskToEdit = _context.Tasks.Where(d => d.Id.Equals(taskToEditModel.Id)).FirstOrDefault();
+            var taskToEdit = GetTaskById(taskToEditModel.Id);
 
-            if (taskToEdit != null)
-            {
-                taskToEdit.Title = taskToEditModel.Title;
-                taskToEdit.Description = taskToEditModel.Description;
-                taskToEdit.DueDate = taskToEditModel.DueDate;
-                taskToEdit.Category = taskToEditModel.Category;
+            if (taskToEdit == null) return;
 
-                taskToEdit.Updated = DateTime.UtcNow;
-            }
+            taskToEdit.Title = taskToEditModel.Title;
+            taskToEdit.Description = taskToEditModel.Description;
+            taskToEdit.DueDate = taskToEditModel.DueDate;
+            taskToEdit.Category = taskToEditModel.Category;
+
+            taskToEdit.Updated = DateTime.UtcNow;
 
             _context.SaveChanges();
         }
 
         public void SoftDeleteTask(int Id)
         {
-            var taskToSoftDelete = _context.Tasks.Where(d => d.Id.Equals(Id)).FirstOrDefault();
+            var taskToSoftDelete = GetTaskById(Id);
 
-            if (taskToSoftDelete != null)
-            {
-                //PUT - Soft delete task
-                taskToSoftDelete.IsDeleted = true;
+            if (taskToSoftDelete == null) return;
 
-                _context.SaveChanges();
-            }
+            taskToSoftDelete.IsDeleted = true;
+            _context.SaveChanges();
         }
 
         public void AddAuthor(AuthorToAddModel authorToAddModel)

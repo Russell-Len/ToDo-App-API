@@ -71,6 +71,11 @@ namespace ToDo_App_API.Controllers
 
             try
             {
+                if (_db.GetTaskById(taskToEditModel.Id) == null)
+                {
+                    return NotFound("Requested task does not exist.");
+                }
+
                 _db.EditTask(taskToEditModel);
                 return NoContent();
             }
@@ -88,6 +93,11 @@ namespace ToDo_App_API.Controllers
 
             try
             {
+                if (_db.GetTaskById(id) == null)
+                {
+                    return NotFound("Requested task does not exist.");
+                }
+
                 _db.SoftDeleteTask(id);
                 return NoContent();
             }
