@@ -1,10 +1,10 @@
-﻿using Microsoft.Build.Framework;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ToDo_App_API.Model
 {
     public class AuthorToAddModel
     {
-        [Required]
+        [Required] 
         public string Username { get; set; } = string.Empty;
 
         [Required]
