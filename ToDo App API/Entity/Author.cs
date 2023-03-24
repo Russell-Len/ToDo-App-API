@@ -9,10 +9,10 @@ namespace ToDo_App_API.Entity
         [Key, Required]
         public int AuthorId { get; set; }
 
-        [Required]
+        [Required, MaxLength(30), MinLength(1)]
         public string Username { get; set; } = string.Empty;
 
-        [Required]
+        [Required, MinLength(8)]
         public string Password { get; set; } = string.Empty;
 
     }
