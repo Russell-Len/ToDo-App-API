@@ -40,6 +40,26 @@ namespace ToDo_App_API.Controllers
             }
         }
 
+        [HttpGet("categories")]
+        public IActionResult GetCategories()
+        {
+            _logger.LogInformation("API called to get categories.");
+
+            try
+            {
+                var authorId = User.Claims.FirstOrDefault(c => c.Type == "authorId")?.Value;
+
+                if (authorId == null) return Unauthorized();
+
+                return Ok(_db.GetCategories());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception occured: {message}", ex.Message);
+                return BadRequest("An error occured on the server.");
+            }
+        }
+
         [HttpPost]
         public IActionResult AddTask(TaskToAddModel taskToAddModel)
         {

@@ -42,6 +42,14 @@ namespace ToDo_App_API.DBHelper
             return _context.Tasks.Where(d => d.Id.Equals(Id)).FirstOrDefault();
         }
 
+        public List<string> GetCategories()
+        {
+            return _context.Tasks
+                .Select(task => task.Category)
+                .Distinct()
+                .ToList();
+        }
+
         public void AddTask(TaskToAddModel taskToAddModel)
         {
             DateTime now = DateTime.UtcNow;
