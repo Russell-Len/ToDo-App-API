@@ -45,6 +45,7 @@ namespace ToDo_App_API.DBHelper
         public List<string> GetCategories()
         {
             return _context.Tasks
+                .Where(task => !task.IsDeleted)
                 .Select(task => task.Category)
                 .Distinct()
                 .ToList();
