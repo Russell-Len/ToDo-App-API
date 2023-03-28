@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToDo_App_API.DataContext;
 using ToDo_App_API.DBHelper;
 using ToDo_App_API.Model;
+using ToDo_App_API.Utilities;
 
 namespace ToDo_App_API.Controllers
 {
@@ -95,11 +96,11 @@ namespace ToDo_App_API.Controllers
 
                 var authorId = User.Claims.FirstOrDefault(c => c.Type == "authorId")?.Value;
 
-                if (existingTask == null) return NotFound("Requested task does not exist.");
+                if (existingTask == null) return NotFound("Update task failed. " + APIErrorMessage.TASK_NOT_FOUND);
 
-                if (authorId == null) return Unauthorized();
+                if (authorId == null) return Unauthorized("Update task failed. " + APIErrorMessage.INVALID_CREDENTIALS);
 
-                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Task does not belong to current author.");
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Update task failed. " + APIErrorMessage.TASK_ACCESS_VIOLATED);
 
                 _db.EditTask(taskToEditModel);
                 return NoContent();
@@ -122,11 +123,11 @@ namespace ToDo_App_API.Controllers
 
                 var authorId = User.Claims.FirstOrDefault(c => c.Type == "authorId")?.Value;
 
-                if (existingTask == null) return NotFound("Requested task does not exist.");
+                if (existingTask == null) return NotFound("Delete task failed. " + APIErrorMessage.TASK_NOT_FOUND);
 
-                if (authorId == null) return Unauthorized();
+                if (authorId == null) return Unauthorized("Delete task failed. " + APIErrorMessage.INVALID_CREDENTIALS);
 
-                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Task does not belong to current author.");
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Delete task failed. " + APIErrorMessage.TASK_ACCESS_VIOLATED);
 
                 _db.SoftDeleteTask(id);
                 return NoContent();
@@ -134,7 +135,7 @@ namespace ToDo_App_API.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("Exception occured: {message}", ex.Message);
-                return BadRequest("An error occured on the server.");
+                return BadRequest("Delete task failed. " + APIErrorMessage.BAD_REQUEST);
             }
         }
 
