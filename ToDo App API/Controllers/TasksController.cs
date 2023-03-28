@@ -97,9 +97,9 @@ namespace ToDo_App_API.Controllers
 
                 if (existingTask == null) return NotFound("Requested task does not exist.");
 
-                if (authorId == null ) return Unauthorized();
+                if (authorId == null) return Unauthorized();
 
-                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized();
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Task does not belong to current author.");
 
                 _db.EditTask(taskToEditModel);
                 return NoContent();
@@ -126,7 +126,7 @@ namespace ToDo_App_API.Controllers
 
                 if (authorId == null) return Unauthorized();
 
-                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized();
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized("Task does not belong to current author.");
 
                 _db.SoftDeleteTask(id);
                 return NoContent();
