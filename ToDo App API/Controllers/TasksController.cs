@@ -91,10 +91,15 @@ namespace ToDo_App_API.Controllers
 
             try
             {
-                if (_db.GetTaskById(taskToEditModel.Id) == null)
-                {
-                    return NotFound("Requested task does not exist.");
-                }
+                var existingTask = _db.GetTaskById(taskToEditModel.Id);
+
+                var authorId = User.Claims.FirstOrDefault(c => c.Type == "authorId")?.Value;
+
+                if (existingTask == null) return NotFound("Requested task does not exist.");
+
+                if (authorId == null ) return Unauthorized();
+
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized();
 
                 _db.EditTask(taskToEditModel);
                 return NoContent();
@@ -113,10 +118,15 @@ namespace ToDo_App_API.Controllers
 
             try
             {
-                if (_db.GetTaskById(id) == null)
-                {
-                    return NotFound("Requested task does not exist.");
-                }
+                var existingTask = _db.GetTaskById(id);
+
+                var authorId = User.Claims.FirstOrDefault(c => c.Type == "authorId")?.Value;
+
+                if (existingTask == null) return NotFound("Requested task does not exist.");
+
+                if (authorId == null) return Unauthorized();
+
+                if (existingTask.AuthorId != Int32.Parse(authorId)) return Unauthorized();
 
                 _db.SoftDeleteTask(id);
                 return NoContent();
