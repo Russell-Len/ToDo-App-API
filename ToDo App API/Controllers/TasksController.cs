@@ -51,7 +51,7 @@ namespace ToDo_App_API.Controllers
 
                 if (authorId == null) return Unauthorized();
 
-                return Ok(_db.GetCategories());
+                return Ok(_db.GetCategories(Int32.Parse(authorId)));
             }
             catch (Exception ex)
             {

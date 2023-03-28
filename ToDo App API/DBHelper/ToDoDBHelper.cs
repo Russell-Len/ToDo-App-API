@@ -42,10 +42,10 @@ namespace ToDo_App_API.DBHelper
             return _context.Tasks.Where(d => d.Id.Equals(Id)).FirstOrDefault();
         }
 
-        public List<string> GetCategories()
+        public List<string> GetCategories(int authorId)
         {
             return _context.Tasks
-                .Where(task => !task.IsDeleted)
+                .Where(task => !task.IsDeleted && task.AuthorId == authorId)
                 .Select(task => task.Category)
                 .Distinct()
                 .ToList();

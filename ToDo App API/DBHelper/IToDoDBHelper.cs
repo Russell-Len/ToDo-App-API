@@ -17,5 +17,7 @@ namespace ToDo_App_API.DBHelper
         public AuthorModel? GetAuthorByUsername(string username);
 
         public AuthorToReturnModel? ValidateCredentials(string username, string password);
+
+        public List<string> GetCategories(int authorId);
     }
 }
